@@ -2,12 +2,12 @@
 <html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Inkomkast (VDH-plan PL-KD-080) in onze maten</title>
 <style>
-body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#eee;overflow:hidden}
+body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#eee}#w{position:relative;height:640px;overflow:hidden}
 #ui{position:absolute;left:10px;top:10px;background:#fffd;padding:10px 14px;border-radius:10px;max-width:330px;font-size:14px;box-shadow:0 2px 8px #0003}
 button{margin:3px 3px 0 0;padding:6px 10px;border:1px solid #888;border-radius:6px;background:#fff;cursor:pointer}
 button.on{background:#2d5a6b;color:#fff}
 h1{font-size:16px;margin:0 0 6px}small{color:#444}
-</style></head><body>
+</style></head><body><div id="w">
 <div id="ui">
 <h1>Inkomkast: 206,4 &times; 260,5 cm</h1>
 <div>Deuren: <button id="bDraai" class="on">Draaideuren</button><button id="bSchuif">Schuifdeuren</button></div>
@@ -16,7 +16,7 @@ h1{font-size:16px;margin:0 0 6px}small{color:#444}
 <small>Slepen = draaien, scrollen = zoomen. Zwart vak (links, 125 cm): max. 47 cm diep door de voordeur. Wit vak (rechts, 81 cm): tot 59 cm diep. Hanglamp staat ter hoogte van de rechterdeuren.</small>
 <div id="info" style="margin-top:6px"><small></small></div>
 </div>
-<script>console.warn('Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation'),
+</div><script>console.warn('Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation'),
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -26,10 +26,10 @@ function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"f
 </script>
 <script>
 const W=206.4,H=260.5,BLK=125,DB=47,DW=59,PLINTH=10,DOOR_T=1.8;
-const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);document.body.appendChild(renderer.domElement);
+const renderer=new THREE.WebGLRenderer({antialias:true});const WD=()=>document.getElementById("w").clientWidth,HT=640;renderer.setSize(WD(),HT);document.getElementById("w").appendChild(renderer.domElement);
 renderer.shadowMap.enabled=true;
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xe9e6e0);
-const cam=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,1,3000);
+const cam=new THREE.PerspectiveCamera(40,WD()/HT,1,3000);
 scene.add(new THREE.HemisphereLight(0xffffff,0x888888,0.9));
 const sun=new THREE.DirectionalLight(0xffffff,0.7);sun.position.set(150,300,300);scene.add(sun);
 const M=(c,o={})=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.8},o));
@@ -132,8 +132,8 @@ let drag=false,lx,ly;
 renderer.domElement.onpointerdown=e=>{drag=true;lx=e.clientX;ly=e.clientY};
 addEventListener('pointerup',()=>drag=false);
 addEventListener('pointermove',e=>{if(!drag)return;az-=(e.clientX-lx)*.005;el=Math.max(-.2,Math.min(1.2,el+(e.clientY-ly)*.005));lx=e.clientX;ly=e.clientY});
-addEventListener('wheel',e=>{dist=Math.max(150,Math.min(1200,dist*(1+e.deltaY*.001)))});
-addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix()});
+renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(150,Math.min(1200,dist*(1+e.deltaY*.001)))});
+addEventListener('resize',()=>{renderer.setSize(WD(),HT);cam.aspect=WD()/HT;cam.updateProjectionMatrix()});
 (function loop(){open+=(target-open)*.1;layout();upd();renderer.render(scene,cam);requestAnimationFrame(loop)})();
 </script></body></html>
 
