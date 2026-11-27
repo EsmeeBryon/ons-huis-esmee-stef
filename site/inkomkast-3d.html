@@ -38,11 +38,11 @@ const paint=M('#BBCAD3'),inner=M('#f4f1ea'),wood=M('#b98d5b');
 // muren en vloer: zwarte achterwand z=0 (x<125), witte wand op z=-12 (x>=125)
 box(400,1,300,M('#cfc9bf'),-100,-1,-200);
 box(BLK,H,2,M('#222'),0,0,-2);
-box(W-BLK+60,H,2,M('#fafafa'),BLK,0,-(DW-DB)-2);
+box(W-BLK+60,H,2,M('#fafafa'),BLK,0,-2);
 box(2,H,DB+10,M('#f2efe9'),-2,0,-2);              // linker zijmuur
-box(2,H,DB+(DW-DB),M('#f2efe9'),W+60,0,-(DW-DB)-2);
+box(2,H,DW+2,M('#f2efe9'),W+60,0,-2);
 // meter/elektrakast rechts als herinnering
-box(60,150,30,M('#c8c8c8'),W+2,0,DB-10);
+box(60,150,30,M('#c8c8c8'),W+2,0,DW-10);
 // kast: zwart vak
 const cab=new THREE.Group();scene.add(cab);
 function carcass(x0,x1,d,z0){ // omkasting van x0..x1 met diepte d vanaf z0 (z0 = achterkant)
@@ -53,7 +53,7 @@ function carcass(x0,x1,d,z0){ // omkasting van x0..x1 met diepte d vanaf z0 (z0 
  box(x1-x0,1.5,d,inner,x0,H-3.5,z0,cab);
  box(x1-x0-4,H-PLINTH-4,1,inner,x0+2,PLINTH+2,z0,cab); // achterpaneel
 }
-const zBack=-(DW-DB); // witte vak begint dieper
+const zBack=0; // achterwand vlak; het dieptesprong zit vooraan
 carcass(0,BLK,DB-DOOR_T,0);
 carcass(BLK,W,DW-DOOR_T,zBack);
 // scheidingswand tussen sectie A/B (x=69) en B/C (x=125)
